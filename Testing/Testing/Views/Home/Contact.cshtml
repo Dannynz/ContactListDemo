@@ -10,10 +10,11 @@
         }
     </style>
     <title></title>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.mobile.min.css" />
-    
+
     <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>
 </head>
 <body>
@@ -30,8 +31,8 @@
         <div id="details"></div>
     </div>
     <script type="text/javascript">
+        var wnd, detailsTemplate;
         $(document).ready(onReady);
-
         function onReady() {
 
             $("#btnSearch").kendoButton({
@@ -44,7 +45,7 @@
                         read: "http://jsonplaceholder.typicode.com/users"
                     },
                     schema: {
-                       
+
                     },
                     serverPaging: false,
                     serverFiltering: false,
@@ -92,24 +93,28 @@
                     //var selected = $.map(this.select(), function (item) {
                     //    return $(item).find('td').first().text();
                     //});
+                    showDetails(this.select());
+                    console.log(this.select());
+                    //var selected = $.map(this.select(), function (item) {
+                    //    return $(item).find('td').first().text();
+                    //});
                     //alert(selected);
                     //createAndShowPopup();
 
                     // For popup windown
-                    var wnd, detailsTemplate;
-                    wnd = $("#details").kendoWindow({
-                                        title: "Customer Details",
-                                        modal: true,
-                                        visible: false,
-                                        resizable: false,
-                                        width: 300
-                                    }).data("kendoWindow");
 
-                    detailsTemplate = kendo.template($("#template").html());
 
                 },
 
-            })
+            }).data("kendoGrid");
+            wnd = $("#details").kendoWindow({
+                modal: true,
+                visible: false,
+                resizable: false,
+                width: 450
+            }).data("kendoWindow");
+
+            detailsTemplate = kendo.template($("#template").html());
         }
 
         function onSearch() {
@@ -127,9 +132,10 @@
         }
 
         function showDetails(e) {
-            e.preventDefault();
-
-            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            //e.preventDefault();
+            var grid = $("#kGrid").data("kendoGrid");
+            var dataItem = grid.dataItem(e);
+            console.log(wnd);
             wnd.content(detailsTemplate(dataItem));
             wnd.center().open();
         }
@@ -137,18 +143,30 @@
 
     <script type="text/x-kendo-template" id="template">
         <div id="details-container">
-            <h2>#= Name # </h2>
-            <em>#= Phone #</em>
-            <dl>
-                <dt>City: #= City #</dt>
-                <dt>Email: #= email #</dt>
-            </dl>
+            <div class="bussiness-card-body">
+                <div class="name-section">
+                    #= name #
+                    <br />
+                    <div class="company-name">#= company.name #</div>
+                </div>
+            </div>
+            <div class="bussiness-card-triangle"></div>
+            <div class="bussiness-card-footer">
+                <div class="business-info">#= phone # - #= email #</div>
+                <div class="business-address">#= address.city #</div>
+            </div>
+            @*<h2> </h2>
+                <em></em>
+                <dl>
+                    <dt>City: #= address.city #</dt>
+                    <dt>Email: #= email #</dt>
+                </dl>*@
         </div>
     </script>
 
     <style type="text/css">
         #details-container {
-            padding: 10px;
+            /*padding: 10px;*/
         }
 
             #details-container h2 {
@@ -163,6 +181,77 @@
                 margin: 0;
                 display: inline;
             }
+
+        .k-window-titlebar.k-header {
+            margin-top: -38px !important;
+            height: 40px !important;
+        }
+
+        #details {
+            background-color: #3f51b5;
+            color: #fff;
+            padding: 0;
+        }
+
+        .name-section {
+            text-align: right;
+            margin: 75px 20px 15px 30px;
+            font-size: 30px;
+            font-weight: 500;
+        }
+
+        .bussiness-card-footer {
+            background-color: #000;
+            padding: 20px;
+            text-align: right;
+        }
+
+        .business-info {
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .k-widget.k-window {
+            padding-top: 37px !important;
+        }
+
+        .triangle {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
+        }
+
+            .triangle:after {
+                content: "";
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                background: #999;
+                transform: rotate(45deg); /* Prefixes... */
+                top: 75px;
+                left: 25px;
+                box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
+            }
+
+        .bussiness-card-triangle {
+            position: relative;
+        }
+
+            .bussiness-card-triangle:after {
+                content: "";
+                border-color: #3f51b5 transparent transparent transparent;
+                border-style: solid;
+                border-width: 20px;
+                width: 0;
+                height: 0;
+                position: absolute;
+                bottom: -40px;
+                left: 35px;
+            }
+
+        }
     </style>
 
 </body>
