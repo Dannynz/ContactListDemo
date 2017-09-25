@@ -1,8 +1,6 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-    @*<base href="http://demos.telerik.com/kendo-ui/grid/filter-row">*@
     <style>
         html {
             font-size: 14px;
@@ -90,20 +88,7 @@
                           title: "Company Name",
                       }],
                 change: function (arg) {
-                    //var selected = $.map(this.select(), function (item) {
-                    //    return $(item).find('td').first().text();
-                    //});
                     showDetails(this.select());
-                    console.log(this.select());
-                    //var selected = $.map(this.select(), function (item) {
-                    //    return $(item).find('td').first().text();
-                    //});
-                    //alert(selected);
-                    //createAndShowPopup();
-
-                    // For popup windown
-
-
                 },
 
             }).data("kendoGrid");
@@ -155,12 +140,6 @@
                 <div class="business-info">#= phone # - #= email #</div>
                 <div class="business-address">#= address.city #</div>
             </div>
-            @*<h2> </h2>
-                <em></em>
-                <dl>
-                    <dt>City: #= address.city #</dt>
-                    <dt>Email: #= email #</dt>
-                </dl>*@
         </div>
     </script>
 
