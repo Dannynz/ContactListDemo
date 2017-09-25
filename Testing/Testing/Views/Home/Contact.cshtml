@@ -1,0 +1,169 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    @*<base href="http://demos.telerik.com/kendo-ui/grid/filter-row">*@
+    <style>
+        html {
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <title></title>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.mobile.min.css" />
+    
+    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>
+</head>
+<body>
+
+    <div>
+        <div>
+            <br><br>
+            Search By UserName/Name/Email:
+            <input class=k-textbox type=text id="txtSearchString" placeholder="enter search text..." />
+            <button id="btnSearch">Search</button>
+        </div>
+        <br><br>
+        <div id="kGrid"></div>
+        <div id="details"></div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(onReady);
+
+        function onReady() {
+
+            $("#btnSearch").kendoButton({
+                click: onSearch
+            })
+
+            $("#kGrid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "http://jsonplaceholder.typicode.com/users"
+                    },
+                    schema: {
+                       
+                    },
+                    serverPaging: false,
+                    serverFiltering: false,
+                    pageSize: 5
+                },
+                height: 550,
+                pageable: true,
+                sortable: true,
+                selectable: 'row',
+                columns: [
+                      {
+                          field: "id",
+                          width: 60,
+                          title: "ID",
+                      },
+                      {
+                          field: "username",
+                          title: "Username",
+                      },
+                      {
+                          field: "name",
+                          title: "Name",
+                      },
+                      {
+                          field: "email",
+                          title: "Email",
+                      },
+                      {
+                          field: "address.city",
+                          title: "City",
+                      },
+                      {
+                          field: "phone",
+                          title: "Phone",
+                      },
+                      {
+                          field: "website",
+                          title: "Website",
+                      },
+                      {
+                          field: "company.name",
+                          title: "Company Name",
+                      }],
+                change: function (arg) {
+                    //var selected = $.map(this.select(), function (item) {
+                    //    return $(item).find('td').first().text();
+                    //});
+                    //alert(selected);
+                    //createAndShowPopup();
+
+                    // For popup windown
+                    var wnd, detailsTemplate;
+                    wnd = $("#details").kendoWindow({
+                                        title: "Customer Details",
+                                        modal: true,
+                                        visible: false,
+                                        resizable: false,
+                                        width: 300
+                                    }).data("kendoWindow");
+
+                    detailsTemplate = kendo.template($("#template").html());
+
+                },
+
+            })
+        }
+
+        function onSearch() {
+            var q = $("#txtSearchString").val();
+            var grid = $("#kGrid").data("kendoGrid");
+            grid.dataSource.filter({
+                logic: "or",
+                filters: [
+                  { field: "name", operator: "contains", value: q },
+                  { field: "username", operator: "contains", value: q },
+                  { field: "email", operator: "contains", value: q }
+                ]
+
+            });
+        }
+
+        function showDetails(e) {
+            e.preventDefault();
+
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            wnd.content(detailsTemplate(dataItem));
+            wnd.center().open();
+        }
+    </script>
+
+    <script type="text/x-kendo-template" id="template">
+        <div id="details-container">
+            <h2>#= Name # </h2>
+            <em>#= Phone #</em>
+            <dl>
+                <dt>City: #= City #</dt>
+                <dt>Email: #= email #</dt>
+            </dl>
+        </div>
+    </script>
+
+    <style type="text/css">
+        #details-container {
+            padding: 10px;
+        }
+
+            #details-container h2 {
+                margin: 0;
+            }
+
+            #details-container em {
+                color: #8c8c8c;
+            }
+
+            #details-container dt {
+                margin: 0;
+                display: inline;
+            }
+    </style>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <style>
+        html {
+            font-size: 14px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+    <title></title>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.3.913/styles/kendo.material.mobile.min.css" />
+
+    <script src="https://kendo.cdn.telerik.com/2017.3.913/js/kendo.all.min.js"></script>
+
+
+</head>
+<body>
+
+    <div>
+        <div>
+            <br><br>
+            Search By UserName/Name/Email:
+            <input class=k-textbox type=text id="txtSearchString" placeholder="enter search text..." />
+            <button id="btnSearch">Search</button>
+        </div>
+        <br><br>
+        <div id="total-number"></div>
+        <div id="kGrid"></div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(onReady);
+
+        function onReady() {
+
+            $("#btnSearch").kendoButton({
+                click: onSearch
+            })
+
+            $("#kGrid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "http://jsonplaceholder.typicode.com/users"
+                    },
+                    schema: {
+                       
+                    },
+                    serverPaging: false,
+                    serverFiltering: false,
+                    pageSize: 5
+                },
+                height: 550,
+                pageable: true,
+                sortable: true,
+                columns: [
+                      {
+                          field: "id",
+                          width: 60,
+                          title: "ID",
+                      },
+                      {
+                          field: "username",
+                          title: "Username",
+                      },
+                      {
+                          field: "name",
+                          title: "Name",
+                      },
+                      {
+                          field: "email",
+                          title: "Email",
+                      },
+                      {
+                          field: "address.city",
+                          title: "City",
+                      },
+                      {
+                          field: "phone",
+                          title: "Phone",
+                      },
+                      {
+                          field: "website",
+                          title: "Website",
+                      },
+                      {
+                          field: "company.name",
+                          title: "Company Name",
+                      }]
+
+            })
+        }
+
+        function onSearch() {
+            var q = $("#txtSearchString").val();
+            var grid = $("#kGrid").data("kendoGrid");
+            grid.dataSource.filter({
+                logic: "or",
+                filters: [
+                  { field: "name", operator: "startswith", value: q },
+                  { field: "username", operator: "startswith", value: q },
+                  { field: "email", operator: "startswith", value: q },
+                  { field: "company.name", operator: "startswith", value: q },
+                  { field: "website", operator: "startswith", value: q },
+                  { field: "phone", operator: "startswith", value: q },
+                  { field: "address.city", operator: "startswith", value: q }
+                ]
+
+            });
+
+            grid.dataSource.fetch(function () {
+                var view = grid.dataSource.view();
+                console.log(view.length); // displays "2"
+                $("#total-number").html("Search Result: " + view.length);
+            });
+        }
+    </script>
+
+
+
+</body>
+</html>
