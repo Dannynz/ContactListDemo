@@ -1,0 +1,88 @@
+﻿
+/* Set css for business card */
+#details-container h2 {
+    margin: 0;
+}
+
+#details-container em {
+    color: #8c8c8c;
+}
+
+#details-container dt {
+    margin: 0;
+    display: inline;
+}
+
+.k-window-titlebar.k-header {
+    margin-top: -38px !important;
+    height: 40px !important;
+}
+
+#details {
+    background-color: #3f51b5;
+    color: #fff;
+    padding: 0;
+}
+
+.name-section {
+    text-align: right;
+    margin: 75px 15px 15px 30px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.company-name {
+    font-size: 20px;
+    padding-right: 10px;
+}
+
+.business-card-footer {
+    background-color: #000;
+    padding: 20px;
+    text-align: right;
+}
+
+.business-info {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.k-widget.k-window {
+    padding-top: 37px !important;
+}
+
+.triangle {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
+}
+
+.triangle:after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: #999;
+    transform: rotate(45deg); /* Prefixes... */
+    top: 75px;
+    left: 25px;
+    box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
+}
+
+.business-card-triangle {
+    position: relative;
+}
+
+.business-card-triangle:after {
+    content: "";
+    border-color: #3f51b5 transparent transparent transparent;
+    border-style: solid;
+    border-width: 20px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: -40px;
+    left: 35px;
+}
