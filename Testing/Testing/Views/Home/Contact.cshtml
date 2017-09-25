@@ -32,11 +32,12 @@
         var wnd, detailsTemplate;
         $(document).ready(onReady);
         function onReady() {
-
+            // Click on Search button
             $("#btnSearch").kendoButton({
                 click: onSearch
             })
 
+            // Display contact list on kendo grid.
             $("#kGrid").kendoGrid({
                 dataSource: {
                     transport: {
@@ -87,11 +88,14 @@
                           field: "company.name",
                           title: "Company Name",
                       }],
+                // Click on any contact to show business card.
                 change: function (arg) {
                     showDetails(this.select());
                 },
 
             }).data("kendoGrid");
+
+            // Create popup window
             wnd = $("#details").kendoWindow({
                 modal: true,
                 visible: false,
@@ -102,6 +106,7 @@
             detailsTemplate = kendo.template($("#template").html());
         }
 
+        // Search contact list
         function onSearch() {
             var q = $("#txtSearchString").val();
             var grid = $("#kGrid").data("kendoGrid");
@@ -116,8 +121,8 @@
             });
         }
 
+        // Show business card info
         function showDetails(e) {
-            //e.preventDefault();
             var grid = $("#kGrid").data("kendoGrid");
             var dataItem = grid.dataItem(e);
             console.log(wnd);
@@ -126,6 +131,7 @@
         }
     </script>
 
+    @*Create business card template*@
     <script type="text/x-kendo-template" id="template">
         <div id="details-container">
             <div class="business-card-body">
@@ -142,93 +148,6 @@
             </div>
         </div>
     </script>
-
-    @*<style type="text/css">
-       
-
-            #details-container h2 {
-                margin: 0;
-            }
-
-            #details-container em {
-                color: #8c8c8c;
-            }
-
-            #details-container dt {
-                margin: 0;
-                display: inline;
-            }
-
-        .k-window-titlebar.k-header {
-            margin-top: -38px !important;
-            height: 40px !important;
-        }
-
-        #details {
-            background-color: #3f51b5;
-            color: #fff;
-            padding: 0;
-        }
-
-        .name-section {
-            text-align: right;
-            margin: 75px 20px 15px 30px;
-            font-size: 30px;
-            font-weight: 500;
-        }
-
-        .business-card-footer {
-            background-color: #000;
-            padding: 20px;
-            text-align: right;
-        }
-
-        .business-info {
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-
-        .k-widget.k-window {
-            padding-top: 37px !important;
-        }
-
-        .triangle {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.5);
-        }
-
-            .triangle:after {
-                content: "";
-                position: absolute;
-                width: 50px;
-                height: 50px;
-                background: #999;
-                transform: rotate(45deg); /* Prefixes... */
-                top: 75px;
-                left: 25px;
-                box-shadow: -1px -1px 10px -2px rgba(0, 0, 0, 0.5);
-            }
-
-        .business-card-triangle {
-            position: relative;
-        }
-
-            .business-card-triangle:after {
-                content: "";
-                border-color: #3f51b5 transparent transparent transparent;
-                border-style: solid;
-                border-width: 20px;
-                width: 0;
-                height: 0;
-                position: absolute;
-                bottom: -40px;
-                left: 35px;
-            }
-
-    </style>*@
 
 </body>
 </html>

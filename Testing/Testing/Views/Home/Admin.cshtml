@@ -94,6 +94,7 @@
             })
         }
 
+        // Search contact list
         function onSearch() {
             var q = $("#txtSearchString").val();
             var grid = $("#kGrid").data("kendoGrid");
@@ -113,13 +114,10 @@
 
             grid.dataSource.fetch(function () {
                 var view = grid.dataSource.view();
-                console.log(view.length); // displays "2"
                 $("#total-number").html("Search Result: " + view.length);
             });
         }
     </script>
-
-   
 
 </body>
 </html>
